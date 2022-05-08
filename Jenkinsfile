@@ -15,15 +15,23 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build imagename
+          dockerImage = docker.build "imagename:${BUILD_NUMBER}")
         }
       }
     }
     stage('run docker image') {
       steps{
-        sh "docker run -dit --rm -p 80:80 $imagename:$BUILD_NUMBER"
+        sh "docker run -dit --name $imagename-$BUILD_NUMBER --rm -p 80:80 $imagename:$BUILD_NUMBER"
+      }
+    }
+    stage('Test working container') {
+      steps{
          sh "curl -o /dev/null -s -w '%{http_code}' localhost:80/index.html && if {{ status == 200 }}; then echo 'all good'; fi"
- 
+      }
+    }
+    stage('Stop and remove docker container') {
+      steps{
+        sh "docker stop $imagename-$BUILD_NUMBER"
       }
     }
   }
