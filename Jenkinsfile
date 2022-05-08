@@ -23,12 +23,27 @@ pipeline {
         sh "sleep 5"
       }
     }
-    stage('Test container, expect http code 200') {
+    /*stage('Test container, expect http code 200') {
       steps{
         script {
           def response = httpRequest httpMode: 'GET', url: "127.0.0.1:84", validResponseCodes: "200", ignoreSslErrors: true
 	  echo "response: ${response.code}"
 	  sh "sleep 1"
+        }
+      }
+    }*/
+    stage('Test container, expect http code 200') {
+      steps{
+        script {
+      // Allow all response codes returned from the Artifactory ping request so it doesn't fail,
+      // normal allowable codes are 100:399.
+          def pingResponse = httpRequest url: "http://localhost:84", validResponseCodes: '200'
+ 
+          echo "Ping response status code: ${pingResponse.status}"
+          echo "Ping response: ${pingResponse.content}"
+ 
+          if (pingResponse.status == 200 && pingResponse.content == 'OK')
+          else
         }
       }
     }
