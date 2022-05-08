@@ -43,7 +43,9 @@ pipeline {
           echo "Ping response: ${pingResponse.content}"
  
           if (pingResponse.status == 200 && pingResponse.content == 'OK')
+            // flag successful check
           else
+            // flag ping failure
         }
       }
     }
