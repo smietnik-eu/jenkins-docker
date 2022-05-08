@@ -23,9 +23,9 @@ pipeline {
         sh "docker run -dit --name $imagename-$BUILD_NUMBER --rm -p 84:80 $imagename:$BUILD_NUMBER"
       }
     }
-    stage('Test working container') {
+    stage('Test container, expect http code 200') {
       steps{
-         sh 'if [[ $(curl -o /dev/null -s -w "%{http_code}" localhost:84) == 200 ]]; then exit 0; fi'
+         sh 'if [ $(curl -o /dev/null -s -w "%{http_code}" localhost:84) == 200 ]; then exit 0; else exit 1; fi'
       }
     }
     stage('Stop and remove docker container') {
