@@ -24,7 +24,9 @@ pipeline {
     }
     stage('Test container, expect http code 200') {
       steps{
-        response = httpRequest httpMode: 'GET', url: "127.0.0.7:80", validResponseCodes: "200", pignoreSslErrors: true
+        script {
+          response = httpRequest httpMode: 'GET', url: "127.0.0.7:80", validResponseCodes: "200", pignoreSslErrors: true
+        }
       }
     }
     stage('Stop and remove docker container') {
