@@ -9,13 +9,12 @@ pipeline {
     stage('Cloning Git') {
       steps {
         git([url: 'https://github.com/smietnik-eu/jenkins-docker.git', branch: 'main'])
- 
       }
     }
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build "imagename:${BUILD_NUMBER}")
+          dockerImage = docker.build "imagename:${BUILD_NUMBER}"
         }
       }
     }
