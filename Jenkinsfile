@@ -40,11 +40,8 @@ pipeline {
           def pingResponse = httpRequest url: "http://localhost:84", validResponseCodes: '200'
  
           echo "Ping response status code: ${pingResponse.status}"
-          echo "Ping response: ${pingResponse.content}"
           if (pingResponse.status == 200)
-            exit 0
-          else
-            exit 1
+            currentBuild.result = 'SUCCESS'
         }
       }
     }
