@@ -25,7 +25,7 @@ pipeline {
     stage('Test container, expect http code 200') {
       steps{
         script {
-          response = httpRequest httpMode: 'GET', url: "127.0.0.7:80", validResponseCodes: "200", pignoreSslErrors: true
+          response = httpRequest httpMode: 'GET', url: "127.0.0.1:80", validResponseCodes: "200", ignoreSslErrors: true
         }
       }
     }
