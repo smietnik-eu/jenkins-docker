@@ -25,13 +25,15 @@ pipeline {
     }
     stage('Test working container') {
       steps{
-         sh "curl -o /dev/null -s -w '%{http_code}' localhost:84/index.html && if {{ status == 200 }}; then echo 'all good'; fi"
+         sh 'if [[ $(curl -o /dev/null -s -w "%{http_code}" localhost:84) == 200 ]]; then exit 0; fi'
       }
     }
     stage('Stop and remove docker container') {
       steps{
         sh "docker stop $imagename-$BUILD_NUMBER"
+        sh "docker rmi -f  $imagename:$BUILD_NUMBER"
       }
     }
+
   }
 }
