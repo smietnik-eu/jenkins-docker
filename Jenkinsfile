@@ -24,7 +24,7 @@ pipeline {
     }
     stage('Test container, expect http code 200') {
       steps{
-         sh 'sleep 2 && if [[ $(curl -o /dev/null -s -w "%{http_code}" localhost:84) == 200 ]]; then exit 0; else exit 1; fi'
+         sh 'sleep 2 && if {{ $(curl -o /dev/null -s -w "%{http_code}" localhost:84) == 200 }}; then exit 0; else exit 1; fi'
       }
     }
     stage('Stop and remove docker container') {
