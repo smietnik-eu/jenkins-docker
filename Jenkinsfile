@@ -20,12 +20,12 @@ pipeline {
     }
     stage('run docker image') {
       steps{
-        sh "docker run -dit --name $imagename-$BUILD_NUMBER --rm -p 80:80 $imagename:$BUILD_NUMBER"
+        sh "docker run -dit --name $imagename-$BUILD_NUMBER --rm -p 84:80 $imagename:$BUILD_NUMBER"
       }
     }
     stage('Test working container') {
       steps{
-         sh "curl -o /dev/null -s -w '%{http_code}' localhost:80/index.html && if {{ status == 200 }}; then echo 'all good'; fi"
+         sh "curl -o /dev/null -s -w '%{http_code}' localhost:84/index.html && if {{ status == 200 }}; then echo 'all good'; fi"
       }
     }
     stage('Stop and remove docker container') {
