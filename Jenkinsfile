@@ -20,12 +20,13 @@ pipeline {
     stage('run docker image') {
       steps{
         sh "docker run -dit --name $imagename-$BUILD_NUMBER --rm -p 84:80 $imagename:$BUILD_NUMBER"
+        sh "sleep 2"
       }
     }
     stage('Test container, expect http code 200') {
       steps{
         script {
-          response = httpRequest httpMode: 'GET', url: "127.0.0.1:80", validResponseCodes: "200", ignoreSslErrors: true
+          response = httpRequest httpMode: 'GET', url: "127.0.0.1:84", validResponseCodes: "200", ignoreSslErrors: true
         }
       }
     }
