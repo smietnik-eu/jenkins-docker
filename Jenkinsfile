@@ -24,7 +24,7 @@ pipeline {
     }
     stage('Test container, expect http code 200') {
       steps{
-	response = httpRequest http://localhost:84 (validResponseCodes: '200')
+	response = httpRequest localhost:84 (validResponseCodes: '200')
       }
     }
     stage('Stop and remove docker container') {
