@@ -35,17 +35,16 @@ pipeline {
     stage('Test container, expect http code 200') {
       steps{
         script {
-      // Allow all response codes returned from the Artifactory ping request so it doesn't fail,
-      // normal allowable codes are 100:399.
+          // Allow all response codes returned from the Artifactory ping request so it doesn't fail,
+          // normal allowable codes are 100:399.
           def pingResponse = httpRequest url: "http://localhost:84", validResponseCodes: '200'
  
           echo "Ping response status code: ${pingResponse.status}"
           echo "Ping response: ${pingResponse.content}"
- 
-          if (pingResponse.status == 200 && pingResponse.content == 'OK')
-            // flag successful check
+          if (pingResponse.status == 200)
+            exit 0
           else
-            // flag ping failure
+            exit 1
         }
       }
     }
